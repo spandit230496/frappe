@@ -414,11 +414,11 @@ frappe.search.SearchDialog = class {
 		let $search_results = $(frappe.render_template("search")).addClass("hide");
 		let $sidebar = $search_results.find(".search-sidebar").empty();
 
-		const sidebar_item = (label) =>
+		const sidebar_item = (key, label) =>
 			$.format(
 				'<li class="search-sidebar-item standard-sidebar-item list-link" data-category="{0}">' +
 					'<a><span class="ellipsis">{1}</span></a></li>',
-				[label, __(label)]
+				[key, label]
 			);
 
 		this.modal_state = 0;
@@ -441,12 +441,12 @@ frappe.search.SearchDialog = class {
 		const prepend_all = global_nonempty.length >= 1 || nav_nonempty.length > 1;
 
 		if (prepend_all) {
-			$sidebar.prepend($(sidebar_item(__("All Results"))));
+			$sidebar.prepend($(sidebar_item("All Results", __("All Results"))));
 		}
 
 		const register_sidebar_section = (set, with_sidebar_entry) => {
 			if (with_sidebar_entry) {
-				$sidebar.append($(sidebar_item(set.title)));
+				$sidebar.append($(sidebar_item(set.title, __(set.title))));
 			}
 			this.add_section_to_summary(set.title, set.results, set.fetch_type);
 			this.full_lists[set.title] = this.render_full_list(
